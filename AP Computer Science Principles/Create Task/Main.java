@@ -12,11 +12,11 @@ public class Main {
         System.out.println("New list successfully created. Use the new task command to add to this list.");
     }
 
-    public static void viewLists(){
+    public static String checkForList(String userMsg){
         boolean invalid = true;
         String listName = "";
         while (invalid){
-            System.out.println("What is the name of the list you would like to view? The lists you have are called: ");
+            System.out.println("What is the name of the list you would like to " + userMsg + "? The lists you have are called: ");
             System.out.println(Lists.getAllListNames());
             System.out.print("> ");
             listName = scan.nextLine();
@@ -27,25 +27,17 @@ public class Main {
                 System.out.println("That list was not found. Try again.");
             }
         }
+        return listName;
+    }
+
+    public static void viewLists(){
+        String listName = checkForList("view");
         Todo target = Lists.findList(listName);
         System.out.println(target.getItems());
     }
 
     public static void addToList(){
-        boolean invalid = true;
-        String listName = "";
-        while (invalid){
-            System.out.println("What is the name of the list you would like to add to? The lists you have are called: ");
-            System.out.println(Lists.getAllListNames());
-            System.out.print("> ");
-            listName = scan.nextLine();
-            if(Lists.checkForList(listName)){
-                invalid = false;
-            }
-            else{
-                System.out.println("That list was not found. Try again.");
-            }
-        }
+        String listName = checkForList("add a task to");
         Todo target = Lists.findList(listName);
         System.out.print("Enter task name: ");
         String taskName = scan.nextLine();
@@ -72,20 +64,7 @@ public class Main {
     }
 
     public static void editList(){
-        boolean invalid = true;
-        String listName = "";
-        while (invalid){
-            System.out.println("What is the name of the list you would like to edit? The lists you have are called: ");
-            System.out.println(Lists.getAllListNames());
-            System.out.print("> ");
-            listName = scan.nextLine();
-            if(Lists.checkForList(listName)){
-                invalid = false;
-            }
-            else{
-                System.out.println("That list was not found. Try again.");
-            }
-        }
+        String listName = checkForList("edit");
         System.out.println("What would you like to edit?\n[1] List name\n[2] A Task in the list");
         int editChoice = 0;
         try{
